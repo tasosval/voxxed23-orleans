@@ -1,10 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
 
+// Setup the orleans runtime to run for this web application
 builder.Host.UseOrleans(silo => silo.UseLocalhostClustering())
     .UseConsoleLifetime();
 
 var app = builder.Build();
 
+// Setup the routes
 app.MapGet("/simple", async () =>
 {
     await Dal.UpdateRow();
@@ -13,7 +15,9 @@ app.MapGet("/simple", async () =>
 
 app.MapGet("/orleans", async (IClusterClient client) =>
 {
+    // Get the reference to grain 0
     var grain = client.GetGrain<IUpdateRowGrain>(0);
+    // Send the call to this grain
     return await grain.UpdateAndGetRow();
 });
 

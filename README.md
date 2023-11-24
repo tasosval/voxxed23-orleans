@@ -13,7 +13,9 @@ The application spins up a single node orleans cluster (1 silo) with localhost c
 ## Endpoints
 
 `/setup` -> Setup the database
+
 `/simple` -> Use DAL directly from http handling
+
 `/orleans` -> Send request through a grain to do the same operation in the DAL
 
 ## How to test
@@ -32,6 +34,9 @@ This will start our webserver at port 5129. In another terminal window let's run
 # Setup the database (this will create a demo.db file in the directory where you )
 curl http://localhost:5129/setup
 # ok 
+
+# (Optional step) Download bombardier
+curl https://github.com/codesenberg/bombardier/releases/download/v1.2.6/bombardier-windows-amd64.exe --output bombardier.exe
 
 # Run the stress tests for the simple solution (for this example use 100 threads to send 10000 requests)
 .\bombardier.exe -c 100 -n 10000 http://localhost:5129/simple
